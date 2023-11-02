@@ -1,0 +1,400 @@
+{
+    "account": {
+        "created_date": "",
+        "id": "",
+        "user_name": "babysunny2906",
+        "pass_word": "Ncsduong@29s"
+    },
+    "created_date": "",
+    "device": {
+        "hardware_status": "",
+        "id": "",
+        "ip_addr": "",
+        "online_status": "online"
+    },
+    "id": "",
+    "mode": {
+        "id": 1,
+        "name": "search_user",
+        "keyword_utils": [
+            {
+                "key": "cháy",
+                "subKey": [
+                    "chung cư mini",
+                    "quán karaoke"
+                ]
+            },
+            {
+                "key": "tổng thống mỹ",
+                "subKey": [
+                    "việt nam"
+                ]
+            },
+            {
+                "key": "trung thu",
+                "subKey": [
+                    "2023"
+                ]
+            },
+            {
+                "key": "Trọng lú",
+                "subKey": [
+                    "đàn áp",
+                    "trừ khử",
+                    "tay sai",
+                    "tự do",
+                    "lợi ích nhóm",
+                    "dân oan",
+                    "tàu cộng",
+                    "lật đổ cộng sản",
+                    "đàn áp nhân dân",
+                    "lật đổ",
+                    "nhân quyền",
+                    "dân chủ",
+                    "trò hề",
+                    "bê bối",
+                    "trắng trợn",
+                    "chạy chức",
+                    "chạy quyền",
+                    "tham nhũng",
+                    "hối lộ",
+                    "bao che"
+                ]
+            },
+            {
+                "key": "Nguyễn Phú Trọng",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "độc tài",
+                    "độc đoán",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế Tổng bí thư",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "lợi ích nhóm",
+                    "trừ khử"
+                ]
+            },
+            {
+                "key": "Ông Trọng",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "độc tài",
+                    "độc đoán",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế Tổng bí thư",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "nhân quyền",
+                    "dân chủ"
+                ]
+            },
+            {
+                "key": "Trọng Lẫn",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "độc tài",
+                    "độc đoán",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế Tổng bí thư",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "trừ khử",
+                    "đàn áp"
+                ]
+            },
+            {
+                "key": "Tổng Trọng",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "độc tài",
+                    "độc đoán",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế Tổng bí thư",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "lợi ích nhóm",
+                    "tay sai"
+                ]
+            },
+            {
+                "key": "Chủ Bí Trọng",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "độc tài",
+                    "độc đoán",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế Tổng bí thư",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "trừ khử",
+                    "dân oan"
+                ]
+            },
+            {
+                "key": "tổng bí thư",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "độc tài",
+                    "độc đoán",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế Tổng bí thư",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "trừ khử",
+                    "lợi ích nhóm"
+                ]
+            },
+            {
+                "key": "Thủ tướng",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế thủ tướng",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "độc tài",
+                    "độc đoán",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "tứ đại",
+                    "lợi ích nhóm"
+                ]
+            },
+            {
+                "key": "Phạm Minh Chính",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế thủ tướng",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "độc tài",
+                    "độc đoán",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "tứ đại",
+                    "dân oan"
+                ]
+            },
+            {
+                "key": "Thủ tướng Chính",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế thủ tướng",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "độc tài",
+                    "độc đoán",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "vây cánh",
+                    "chạy chức",
+                    "tứ đại triều đình",
+                    "lợi ích nhóm"
+                ]
+            },
+            {
+                "key": "Vương Đình Huệ",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế Chủ tịch quốc hội",
+                    "Vương Hà My",
+                    "con gái du học",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "độc tài",
+                    "độc đoán",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "trừ khử",
+                    "lợi ích nhóm"
+                ]
+            },
+            {
+                "key": "Chủ tịch quốc hội",
+                "subKey": [
+                    "tham quyền cố vị",
+                    "lú lẫn",
+                    "thiên đường xã hội chủ nghĩa",
+                    "thiên đường xhcn",
+                    "Trung Cộng",
+                    "Tàu Cộng",
+                    "ghế Chủ tịch quốc hội",
+                    "ghế CTQH",
+                    "ghế Chủ tịch QH",
+                    "csvn",
+                    "tham nhũng",
+                    "bê bối",
+                    "trò hề",
+                    "trắng trợn",
+                    "độc tài",
+                    "độc đoán",
+                    "tham vọng quyền lực",
+                    "tiêu diệt",
+                    "bao che",
+                    "trừ khử"
+                ]
+            }
+        ],
+        "keyword":["tổng bí thư","Nguyễn Phú Trọng","Ông Trọng","Trọng Lẫn","Tổng Trọng","Chủ Bí Trọng","Thủ tướng","Phạm Minh Chính","Thủ tướng Chính","Vương Đình Huệ","Trọng lú","Chủ tịch quốc hội"
+        ],
+        "list_page": [
+            "https://www.tiktok.com/@toimuonbaucu",
+            "https://www.tiktok.com/@vnch94",
+            "https://www.tiktok.com/@vnchmuomnam",
+            "https://www.tiktok.com/@kocotailhoan10877",
+            "https://www.tiktok.com/@nhayui",
+            "https://www.tiktok.com/@nhayow",
+            "https://www.tiktok.com/@giaidapthacmac",
+            "https://www.tiktok.com/@nguyenngoclapofficial",
+            "https://www.tiktok.com/@1981.son",
+            "https://www.tiktok.com/@userpi7dx1h0pg",
+            
+            "https://www.tiktok.com/@nhayuue",
+            "https://www.tiktok.com/@bsnguyenvanha",
+            "https://www.tiktok.com/@iel8974482a",
+            "https://www.tiktok.com/@tangthanhcut",
+            "https://www.tiktok.com/@amnhac7777",
+            "https://www.tiktok.com/@zxo94829dj2",
+            "https://www.tiktok.com/@fbs23954bia",
+            "https://www.tiktok.com/@peaceful_9333",
+            "https://www.tiktok.com/@theanhsn06",
+            "https://www.tiktok.com/@chumeocakhia",
+            "https://www.tiktok.com/@phanbiene",
+            "https://www.tiktok.com/@tri.nguyen.ong.tam",
+            "https://www.tiktok.com/@epicbaitman78",
+            "https://www.tiktok.com/@vietnamese115",
+            "https://www.tiktok.com/@shinjiasian",
+            "https://www.tiktok.com/@bc.h.l.thng.no",
+            "https://www.tiktok.com/@vv1hjb",
+            "https://www.tiktok.com/@nguyen.dien.81",
+            "https://www.tiktok.com/@hoangthanh4198",
+            "https://www.tiktok.com/@dng.xun.100.h.vit8",
+            "https://www.tiktok.com/@nhinhinho1102"
+        ],
+        "count_post": 20,
+        "link_post": "https://www.tiktok.com/@ojw86308hkp/video/7279822529307430176",
+        "type_auto": [
+            "love",
+            "like",
+            "comment",
+            "share",
+            "follow",
+            "report"
+        ],
+        "action": [
+            "like",
+            "follow",
+            "love",
+            "share"
+        ],
+        "type": "video",
+        "key": "hanoi",
+        "key_comment": [
+            "tuyet voi",
+            "hay ghê "
+        ],
+        "report_type": "Disordered eating and unhealthy body image"
+    }
+}
