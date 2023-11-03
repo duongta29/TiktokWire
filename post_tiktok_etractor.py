@@ -27,10 +27,8 @@ class PostTikTokExtractor(PostExtractor):
                 By.XPATH, '//*[@id="__UNIVERSAL_DATA_FOR_REHYDRATION__"]').get_attribute('text')
             infor_text = json.loads(infor_text)
             infor_text = infor_text["__DEFAULT_SCOPE__"]["webapp.video-detail"]["itemInfo"]["itemStruct"]
-
         except:
-            infor_text = self.driver.find_element(
-                By.XPATH, '//*[@id="SIGI_STATE"]').get_attribute('text')
+            infor_text = self.driver.find_element(By.XPATH, '//*[@id="SIGI_STATE"]').get_attribute('text')
             infor_text = json.loads(infor_text)
             infor_text = infor_text["ItemModule"][self.source_id]
         self.infor_text = infor_text
@@ -49,15 +47,15 @@ class PostTikTokExtractor(PostExtractor):
         return time_crawl
 
     def extract_post_author(self):
-        author = self.infor_text["nickname"]
+        author = self.infor_text["author"]["nickname"]
         return author
 
     def extract_post_author_link(self):
-        author_link = "https://www.tiktok.com/@" + self.infor_text["author"]
+        author_link = "https://www.tiktok.com/@" + self.infor_text["author"]["uniqueId"]
         return author_link
 
     def extract_post_author_avatar(self):
-        avatar = self.infor_text["avatarThumb"]
+        avatar = self.infor_text["author"]["avatarThumb"]
         # avatar = avatar.get_attribute('src')
         return avatar
 

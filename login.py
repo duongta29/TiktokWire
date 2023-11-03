@@ -88,21 +88,20 @@ class TiktokLogin:
 
 
 # ### MAIN ###
-def main():
-    url = "https://www.tiktok.com/"
-    # path = config.account_path
-    username = ["babysunny2906","xinhxinh29"]
-    # with open (path, "r") as f:
-    #     data = f.read()
-    #     account = json.loads(data)
-    # acc = Account(account[username[0]]["username"], account[username[0]]["password"], account[username[0]]["cookies"])
-    driver = webdriver.Chrome(executable_path ='chromedriver.exe',options=options)
-    driver.get(url)
-    time.sleep(3)
-    ttLogin = TiktokLogin(driver, username = username[1])
-
-    ttLogin.loginTiktokwithCookie()
-    time.sleep(10)
+# def main():
+#     url = "https://www.tiktok.com/"
+#     # path = config.account_path
+#     username = ["babysunny2906","xinhxinh29"]
+#     # with open (path, "r") as f:
+#     #     data = f.read()
+#     #     account = json.loads(data)
+#     # acc = Account(account[username[0]]["username"], account[username[0]]["password"], account[username[0]]["cookies"])
+#     driver = webdriver.Chrome(executable_path ='chromedriver.exe',options=options)
+#     driver.get(url)
+#     time.sleep(3)
+#     ttLogin = TiktokLogin(driver, username = username[1])
+#     ttLogin.loginTiktokwithCookie()
+#     time.sleep(10)
 
 # ### EXECUTE ###
-main()
+# main()
