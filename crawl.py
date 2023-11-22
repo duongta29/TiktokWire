@@ -23,48 +23,44 @@ from selenium.webdriver.common.action_chains import ActionChains
 from login import TiktokLogin
 producer = KafkaProducer(bootstrap_servers=["10.11.101.129:9092"])
 
-options = webdriver.ChromeOptions()
-options.add_argument('--mute-audio')
-options.add_argument('--disable-blink-features=AutomationControlled')
-options.add_argument("--start-maximized")
-options.add_argument('--disable-infobars')
-options.add_argument('--disable-notifications')
-options.add_argument('--disable-popup-blocking')
-options.add_argument('--disable-save-password-bubble')
-options.add_argument('--disable-translate')
-options.add_argument('--disable-web-security')
-options.add_argument('--disable-extensions')
-options.add_argument(f'--proxy-server={config.proxy}')
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--mute-audio')
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--incognito')
+chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+chrome_options.add_argument("--start-maximized")
+chrome_options.add_argument('--disable-infobars')
+chrome_options.add_argument('--disable-notifications')
+chrome_options.add_argument('--disable-popup-blocking')
+chrome_options.add_argument('--disable-save-password-bubble')
+chrome_options.add_argument('--disable-translate')
+chrome_options.add_argument('--disable-web-security')
+chrome_options.add_argument('--disable-extensions')
+chrome_options.add_argument(f'--proxy-server={config.proxy}')
 
-# driver = webdriver.Chrome(options=options)
-# time.sleep(1)
+### OTHER ###
+with open(config.config_path, "r", encoding='latin-1') as f:
+    data = f.read()
+    data = json.loads(data)
+    option = data["mode"]["name"]
 
-
-# ...
-
-# driver.get('https://www.tiktok.com')
-
-class CrawlManage(object):
+class CrawlManage(object, ):
     XPATH_VIDEO_SEARCH = '//*[contains(@class, "DivItemContainerForSearch")]'
     XPATH_VIDEO_OTHER = '//*[contains(@class, "DivItemContainerV2")]'
     # XPATH_VIDEO_OTHER = '//*[@class="tiktok-x6y88p-DivItemContainerV2 e19c29qe9"]'
     XPATH_VIDEO_USER = '//*[@data-e2e="user-post-item-desc"]'
 
-    def __init__(self, driver, config=config) -> None:
-        driver.scopes = [
-    '.*comment.*'
-]
+    def __init__(self, driver = webdriver.Chrome(options=chrome_options) , config=config) -> None:
+#         driver.scopes = [
+#     '.*comment.*'
+# ]
         self.driver = driver
         self.config = config
-        with open(self.config.config_path, "r", encoding='latin-1') as f:
-            data = f.read()
-            data = json.loads(data)
-        self.option = data["mode"]["name"]
         self.actions = ActionChains(self.driver)
         self.link = None
-        # self.requests = []
         self.comments = []
-        # self.option = "search_post"
+        self.reply = []
 
     def parse_keyword(self, option, page) -> List[str]:
         keyword_list_raw_dict = []
@@ -84,93 +80,84 @@ class CrawlManage(object):
             button = self.driver.find_element(By.XPATH, '//*[@data-e2e="modal-close-inner-button"]')
             button.click()
         except:
-            try:
-                login = self.driver.find_element(By.XPATH, '//*[@id="login-modal"]')
-                self.driver.close()
-                time.sleep(3)
-                self.driver=webdriver.Chrome(options=options)
-                return self.crawl_post(self.link, self.source_id)
-            except:
-                print("No login div")
-                
-        
+            # try:
+            #     login = self.driver.find_element(By.XPATH, '//*[@id="login-modal"]')
+            #     self.driver.close()
+            #     time.sleep(3)
+            #     self.driver=webdriver.Chrome(options=chrome_options)
+            #     return self.crawl_post(self.link, self.source_id)
+            # except:
+            print("No login div")
 
-    def extract_numbers_from_string(self, string):
-        pattern = r'\d+'
-        numbers = re.findall(pattern, string)
-        number = int(numbers[0])
-        return number
-    
-    
     def clickViewmore(self,cmt):
         pass
-        
-                
-    def interceptor_post(self, request, response):
-        if "comment/list/?WebIdLastTime" in request.url:
-            # comments = []
-            try:
-                data = sw_decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
-                try:
-                    data = data.decode("utf8")
-                except:
-                    pass
-                data = json.loads(data)
-                list_comment = data["comments"]
-                for comment_dict in list_comment:
-                    comment_extractor: PostCommentExtractor = PostCommentExtractor(driver=self.driver, comment_dict = comment_dict)
-                    comment = comment_extractor.extract()
-                    with open("result.txt", "a", encoding="utf-8") as file:
-                        file.write(f"{str(comment)}\n")
-                        if comment.is_valid:
-                            file.write("🇧🇷" * 50 + "\n")
-                        else:
-                            file.write("🎈" * 50 + "\n")
-                        self.comments.append(comment)
-            except Exception as e:
-                print(e)
+    
+    def crawl_comment(self):
+        comments = []
+        list_comment = self.comments
+        self.comments = []
+        list_replies = self.reply
+        self.reply = []
+        for comment_dict in list_comment:
+            comment_extractor: PostCommentExtractor = PostCommentExtractor(driver=self.driver, comment_dict = comment_dict)
+            comment = comment_extractor.extract()
+            comments.append(comment)
+            with open("result.txt", "a", encoding="utf-8") as file:
+                file.write(f"{str(comment)}\n")
+                if comment.is_valid:
+                    file.write("🇧🇷" * 50 + "\n")
+                else:
+                    file.write("🎈" * 50 + "\n")
             try: 
-                if  comment_dict["reply_comment"] is not None:
+                if comment_dict["reply_comment"] is not None:
                     list_reply = comment_dict["reply_comment"]
                     for reply_dict in list_reply:
                         reply_extractor: PostReplyExtractor = PostReplyExtractor(driver = self.driver, reply_dict = reply_dict) 
                         reply = reply_extractor.extract()
+                        comments.append(comment)
                         with open("result.txt", "a", encoding="utf-8") as file:
                             file.write(f"{str(reply)}\n")
                             if reply.is_valid:
                                 file.write("🇧🇷" * 50 + "\n")
                             else:
-                                file.write("🎈" * 50 + "\n")
-                        self.comments.append(reply)
+                                file.write("🎈" * 50 + "\n")  
             except Exception as e:
                  print(e)
-        if "comment/list/reply/?WebIdLastTime" in request.url:
-                    with open('request.txt', 'a') as f:
-                            f.write(request.url)
-                    # print(request.url)
-                    data = sw_decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
-                    try:
-                        data = data.decode("utf8")
-                    except:
-                        pass
-                    data = json.loads(data)
-                    list_reply = data["comments"]
-                    try: 
-                        for reply_dict in list_reply:
-                                reply_extractor: PostReplyExtractor = PostReplyExtractor(driver = self.driver, reply_dict = reply_dict) 
-                                reply = reply_extractor.extract()
-                                with open("result.txt", "a", encoding="utf-8") as file:
-                                    file.write(f"{str(reply)}\n")
-                                    if reply.is_valid:
-                                        file.write("🇧🇷" * 50 + "\n")
-                                    else:
-                                        file.write("🎈" * 50 + "\n")
-                                self.comments.append(reply)
-                    except Exception as e:
-                        print(e)
-        # return comments
-            # print(data)
+        for reply_dict in list_replies:
+            reply_extractor: PostReplyExtractor = PostReplyExtractor(driver = self.driver, reply_dict = reply_dict) 
+            reply = reply_extractor.extract()
+            comments.append(comment)
+            with open("result.txt", "a", encoding="utf-8") as file:
+                file.write(f"{str(reply)}\n")
+                if reply.is_valid:
+                    file.write("🇧🇷" * 50 + "\n")
+                else:
+                    file.write("🎈" * 50 + "\n")
+        return comments
+        
             
+        
+    def interceptor_post(self, request, response):
+        if "comment/list/?WebIdLastTime" in request.url:
+            data = sw_decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
+            try:
+                data = data.decode("utf8")
+            except:
+                pass
+            data = json.loads(data)
+            list_comment = data["comments"]
+            for comment in list_comment:
+                self.comments.append(comment) 
+        if "comment/list/reply/?WebIdLastTime" in request.url:
+            data = sw_decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
+            try:
+                data = data.decode("utf8")
+            except:
+                pass
+            data = json.loads(data)
+            list_reply = data["comments"]
+            for reply in list_reply:
+                self.reply.append(reply)
 
     def scroll_comment(self):
             cmts = []
@@ -203,7 +190,7 @@ class CrawlManage(object):
             
 
     def crawl_post(self, link):
-        # self.driver.response_interceptor = self.interceptor_post
+        self.driver.response_interceptor = self.interceptor_post
         segments = link.split("/")
         source_id = segments[-1]
         try:
@@ -213,7 +200,7 @@ class CrawlManage(object):
             # self.driver.get(link)
             # time.sleep(3)
             self.driver.implicitly_wait(5)
-            self.check_login_div()
+            # self.check_login_div()
             # time.sleep(3)
             print(f" >>> Crawling: {link} ...")
             post_extractor: PostTikTokExtractor = PostTikTokExtractor(
@@ -221,7 +208,6 @@ class CrawlManage(object):
             # data[vid] = self.CrawlVideo(vid)
             post = post_extractor.extract()
             retry_time = 0
-
             def retry_extract(post, retry_time):
                 while not post.is_valid():
                     post = post_extractor.extract()
@@ -245,13 +231,21 @@ class CrawlManage(object):
                     file.write("🇧🇷" * 50 + "\n")
                 else:
                     file.write("🎈" * 50 + "\n")
-                
             if posts != [] :
-                return self.scroll_comment()
+                self.scroll_comment()
+                comments = self.crawl_comment()
+                del self.driver.response_interceptor
+                # print("push kafka")
+                try:
+                    push_kafka = self.push_kafka(posts,comments)
+                    if push_kafka == 1:
+                        print("Done push kafka")
+                except Exception as e:
+                    print(e)
         except Exception as e:
             print(e)
             captcha.check_captcha(self.driver)
-            return self.crawl_post(link, source_id)
+            return self.crawl_post(link)
         
     def push_kafka(self, posts, comments):
         if len(posts) > 0:
@@ -267,27 +261,26 @@ class CrawlManage(object):
     def run(self, page):
         count = 0
         self.driver.get("https://www.tiktok.com/")
-        # ttLogin = TiktokLogin(self.driver, username = "xinhxinh29")
-        # ttLogin.loginTiktokwithCookie()
-        self.check_login_div()
+        time.sleep(2)
+        captcha.check_captcha(self.driver)
+        ttLogin = TiktokLogin(self.driver, username = "xinhxinh29")
+        ttLogin.loginTiktokwithCookie()
+        # self.check_login_div()
         print("Start crawl")
         # time.sleep(3)
-        keywords = self.parse_keyword(self.option, page)
-        
+        keywords = self.parse_keyword(option, page)
         for keyword in keywords:
             link_list = self.get_link_list(keyword)
             for link in link_list:
-                self.link = link
-                
-                segments = link.split("/")
-                source_id = segments[-1]
-                count += 1
-                self.source_id = source_id
+                # self.link = link
+                # segments = link.split("/")
+                # source_id = segments[-1]
+                # count += 1
+                # self.source_id = source_id
                 start = time.time()
-                self.crawl_post(link, source_id)
+                self.crawl_post(link)
                 end = time.time()
                 print(f"Time for video {link} is {end - start}")
-                
         time.sleep(30*60)
         return self.run("")
     
@@ -301,10 +294,10 @@ class CrawlManage(object):
         except:
             pass
         with open('dataCrawled.txt', 'r') as f:
-            data_crawled = f.read()
+            data_crawled = [line.strip() for line in f]
         count = 1
         vid_list_elem = []
-        if self.option == "search_user":
+        if option == "search_user":
             try:
                 no_post = self.driver.find_element(By.XPATH, '//*[@class="tiktok-1ovqurc-PTitle emuynwa1"]').text()
                 print("No post")
@@ -362,12 +355,12 @@ class CrawlManage(object):
         vidList = []
         # with open()
         # keyword_dict, option = self.parse_keyword()
-        if self.option == "search_post":
+        if option == "search_post":
             self.driver.get(self.config.search_post_tiktok + keyword)
             # time.sleep(1)
             # captcha.check_captcha(self.driver)
             vidList = self.scroll(xpath=self.XPATH_VIDEO_SEARCH)
-        if self.option == "search_post_android":
+        if option == "search_post_android":
             driver_appium = run_appium(keyword)
             post = 0
             link = None
@@ -394,15 +387,15 @@ class CrawlManage(object):
                 post += 1
                 # with open("link_list_android.txt", "r") as f:
                 #     vidList = [line.strip() for line in f.readlines()]
-        elif self.option == "search_user": 
+        elif option == "search_user": 
             self.driver.get(keyword)
             # captcha.check_captcha(self.driver)
             vidList = self.scroll(xpath=self.XPATH_VIDEO_USER)
-        elif self.option == "tag":
+        elif option == "tag":
             self.driver.get(self.config.hashtag_tiktok + keyword)
             # captcha.check_captcha(self.driver)
             vidList = self.scroll(xpath=self.XPATH_VIDEO_OTHER)
-        elif self.option == "explore":
+        elif option == "explore":
             self.driver.get(self.config.explore_tiktok)
             # captcha.check_captcha(self.driver)
             div = self.driver.find_elements(

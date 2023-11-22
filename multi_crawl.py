@@ -2,7 +2,7 @@ import queue
 import threading
 from crawl_post import CrawlManage
 import config
-from seleniumwire import webdriver
+from seleniumwire import webdriver as webdriver
 import json
 import captcha
 from selenium.webdriver.common.by import By
@@ -16,18 +16,22 @@ chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 chrome_options.add_argument("--start-maximized")
 chrome_options.add_argument('--disable-infobars')
 chrome_options.add_argument('--disable-notifications')
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--disable-popup-blocking')
 chrome_options.add_argument('--disable-save-password-bubble')
 chrome_options.add_argument('--disable-translate')
 chrome_options.add_argument('--disable-web-security')
 chrome_options.add_argument('--disable-extensions')
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--ignore_ssl")
 # chrome_options.add_argument("--headless") 
 # chrome_options.add_argument(f'--proxy-server={config.proxy}')
 
 ### MULTI ###
 
 NUM_LINK_THREADS = 1
-NUM_PROCESSING_THREADS = 3
+NUM_PROCESSING_THREADS = 1
 lock = threading.Lock()
 drivers = []
 proxy_list=config.proxy
@@ -39,7 +43,12 @@ XPATH_VIDEO_OTHER = '//*[contains(@class, "DivItemContainerV2")]'
 XPATH_VIDEO_USER = '//*[@data-e2e="user-post-item-desc"]'
 
 ### OTHER ###
-
+seleniumwire_options = {
+    'verify_ssl': True,
+    'disable_capture': False,
+    'request_storage': 'memory',
+    'request_storage_max_size': 0
+}
 
 ### DEFINE ###
 def get_config():
@@ -70,7 +79,7 @@ def get_config():
 def get_driver():
     for i in range(NUM_PROCESSING_THREADS):
         proxy = proxy_list[i]
-        driver = webdriver.Chrome(options=chrome_options)
+        driver = webdriver.Chrome(options=chrome_options, seleniumwire_options=seleniumwire_options)
         drivers.append(driver)
         driver.get("https://www.tiktok.com/")
         login = TiktokLogin(driver=driver, username="xinhxinh29")
@@ -153,10 +162,10 @@ def get_link_list(link_queue):
     # proxy_index = link_queue.qsize() % len(proxy_list)  # Chọn proxy dựa trên số thứ tự của liên kết
     # proxy = proxy_list[proxy_index]
     # chrome_options.add_argument(f"--proxy-server={proxy}")
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.scopes = [
-    'comment'
-]
+    driver = webdriver.Chrome(options=chrome_options, seleniumwire_options = seleniumwire_options)
+#     driver.scopes = [
+#     'comment'
+# ]
     drivers.append(driver)
     driver.get("https://www.tiktok.com/")
     login = TiktokLogin(driver=driver, username="xinhxinh29")

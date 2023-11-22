@@ -43,7 +43,7 @@ class PostTikTokExtractor(PostExtractor):
 
     def extract_post_time_crawl(self):
         time_crawl = datetime.datetime.now()
-        time_crawl = time_crawl.timestamp()
+        time_crawl = int(time_crawl.timestamp())
         return time_crawl
 
     def extract_post_author(self):
@@ -140,7 +140,7 @@ class PostCommentExtractor(PostExtractor):
 
     def extract_post_time_crawl(self):
         time_crawl = datetime.datetime.now()
-        time_crawl = time_crawl.timestamp()
+        time_crawl = int(time_crawl.timestamp())
         return time_crawl
 
     def extract_post_author(self):
@@ -162,7 +162,7 @@ class PostCommentExtractor(PostExtractor):
             return ""
 
     def extract_post_created_time(self):
-        createTime = self.comment_dict["create_time"]
+        createTime = int(self.comment_dict["create_time"])
         return createTime
     
 
@@ -229,7 +229,7 @@ class PostReplyExtractor(PostExtractor):
 
     def extract_post_time_crawl(self):
         time_crawl = datetime.datetime.now()
-        time_crawl = time_crawl.timestamp()
+        time_crawl = int(time_crawl.timestamp())
         return time_crawl
 
     def extract_post_author(self):
@@ -251,7 +251,7 @@ class PostReplyExtractor(PostExtractor):
             return ""
 
     def extract_post_created_time(self):
-        createTime = self.reply_dict["create_time"]
+        createTime = int(self.reply_dict["create_time"])
         return createTime
 
     def extract_post_content(self):

@@ -27,74 +27,17 @@ class CrawlManage(object):
 ]
         self.driver = driver
         self.filtered_requests =[]
+        self.comments = []
+        self.reply = []
         
     def get_comment(self):
-        for request in self.driver.requests:
-            comments = []
-            if "comment/list/?WebIdLastTime" in request.url:
-                try:
-                    data = sw_decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
-                    try:
-                        data = data.decode("utf8")
-                    except:
-                        pass
-                    data = json.loads(data)
-                    list_comment = data["comments"]
-                    for comment_dict in list_comment:
-                        comment_extractor: PostCommentExtractor = PostCommentExtractor(driver=self.driver, comment_dict = comment_dict)
-                        comment = comment_extractor.extract()
-                        with open("result.txt", "a", encoding="utf-8") as file:
-                            file.write(f"{str(comment)}\n")
-                            if comment.is_valid:
-                                file.write("🇧🇷" * 50 + "\n")
-                            else:
-                                file.write("🎈" * 50 + "\n")
-                            comments.append(comment)
-                except Exception as e:
-                    print(e)
-                try: 
-                    if  comment_dict["reply_comment"] is not None:
-                        list_reply = comment_dict["reply_comment"]
-                        for reply_dict in list_reply:
-                            reply_extractor: PostReplyExtractor = PostReplyExtractor(driver = self.driver, reply_dict = reply_dict) 
-                            reply = reply_extractor.extract()
-                            with open("result.txt", "a", encoding="utf-8") as file:
-                                file.write(f"{str(reply)}\n")
-                                if reply.is_valid:
-                                    file.write("🇧🇷" * 50 + "\n")
-                                else:
-                                    file.write("🎈" * 50 + "\n")
-                            comments.append(reply)
-                except Exception as e:
-                    print(e)
-            if "comment/list/reply/?WebIdLastTime" in request.url:
-                        with open('request.txt', 'a') as f:
-                                f.write(request.url)
-                        # print(request.url)
-                        data = sw_decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
-                        try:
-                            data = data.decode("utf8")
-                        except:
-                            pass
-                        data = json.loads(data)
-                        list_reply = data["comments"]
-                        try: 
-                            for reply_dict in list_reply:
-                                    reply_extractor: PostReplyExtractor = PostReplyExtractor(driver = self.driver, reply_dict = reply_dict) 
-                                    reply = reply_extractor.extract()
-                                    with open("result.txt", "a", encoding="utf-8") as file:
-                                        file.write(f"{str(reply)}\n")
-                                        if reply.is_valid:
-                                            file.write("🇧🇷" * 50 + "\n")
-                                        else:
-                                            file.write("🎈" * 50 + "\n")
-                                    comments.append(reply)
-                        except Exception as e:
-                            print(e)
-            return comments
+        list_comment = self.comments
+        self.comments=[]
+        list_reply = self.reply
+        self.reply = []
 
        
-    def interceptor_post(self, request):
+    def interceptor_post(self, request, response):
         if "comment/list/?WebIdLastTime" in request.url:
             # comments = []
             try:
@@ -115,9 +58,7 @@ class CrawlManage(object):
                         else:
                             file.write("🎈" * 50 + "\n")
                         self.comments.append(comment)
-            except Exception as e:
-                print(e)
-            try: 
+                    # try: 
                 if  comment_dict["reply_comment"] is not None:
                     list_reply = comment_dict["reply_comment"]
                     for reply_dict in list_reply:
@@ -132,6 +73,8 @@ class CrawlManage(object):
                         self.comments.append(reply)
             except Exception as e:
                  print(e)
+            
+            
         if "comment/list/reply/?WebIdLastTime" in request.url:
                     with open('request.txt', 'a') as f:
                             f.write(request.url)
@@ -191,7 +134,7 @@ class CrawlManage(object):
             
 
     def crawl_post(self, link):
-        # self.driver.response_interceptor = self.interceptor_post
+        self.driver.response_interceptor = self.interceptor_post
         segments = link.split("/")
         source_id = segments[-1]
         try:
@@ -234,6 +177,7 @@ class CrawlManage(object):
             if posts != [] :
                 self.scroll_comment()
                 comments = self.get_comment()
+            del self.driver.response_interceptor
         except Exception as e:
             print(e)
             captcha.check_captcha(self.driver)
